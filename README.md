@@ -36,3 +36,5 @@ you can see api documentation in
 ```bash
 localhost:3000/api
 ```
+
+note: the project is dockerized but when i start app with docker-compose grpc client can not connect to other microservice and there is a problem in docker network. for that reason run projects with npm start:dev on both projects
