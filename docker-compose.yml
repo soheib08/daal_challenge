@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  microservice1:
+    build:
+      context: ./wallet
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+      - "50051:50051"
+    expose:
+      - "50051"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGODB_URl=mongodb://mongodb:27017/daal
+    networks:
+      - my_network  
+
+  microservice2:
+    build:
+      context: ./transaction
+      dockerfile: Dockerfile
+    ports:
+      - "50052:50051"
+    expose:
+      - "50051"
+    depends_on:
+      - mongodb
+    networks:
+      - my_network    
+    environment:
+      - MONGODB_URl=mongodb://mongodb:27017/daal
+
+  mongodb:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    networks:
+      - my_network  
+
+networks:
+  my_network:
+    driver: bridge
